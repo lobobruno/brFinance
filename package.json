@@ -1,16 +1,25 @@
 {
-    "name": "brFinance",
+    "name": "brfinance",
+    "description": "Scraping package to simplify access to financial data of brazilian companies and institutions.",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "version": "1.0.0",
+    "author": "Bruno Lobo",
+    "license": "MIT",
+    "keywords": [
+        "b3",
+        "anbima"
+    ],
     "scripts": {
         "lint": "eslint --fix . --ext .ts,.tsx",
         "dev": "nodemon",
         "build": "tsc",
-        "prepublish": "npm run build"
+        "prepare": "npm run build",
+        "prepublishOnly": "npm test && npm run lint",
+        "preversion": "npm run lint",
+        "version": "npm run format && git add -A src",
+        "postversion": "git push && git push --tags"
     },
-    "main": "index.js",
-    "types": "dist/index.d.ts",
-    "version": "1.0.0",
-    "author": "Bruno Lobo",
-    "license": "MIT",
     "devDependencies": {
         "@types/node": "^16.3.3",
         "@types/node-fetch": "^2.5.11",
