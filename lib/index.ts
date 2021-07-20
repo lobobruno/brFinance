@@ -2,7 +2,6 @@ import { encodeQueryData, isHtml, jsonToIndiceAnbima, recursivelyDelete, toJSON 
 import { existsSync, mkdirSync } from 'fs'
 import { CodMoedaPtax, Urls } from './enums'
 import { CVMCodigos, IndicesAnbima, Ptax } from './interfaces'
-import { browser } from './browser'
 import axios from 'axios'
 import moment from 'moment'
 import path from 'path'
@@ -57,14 +56,17 @@ export async function indicesAnbima(startDate: number, endDate: number): Promise
         return []
     }
     const dates: string[] = []
-    const page = await browser.goTo(Urls.IndicesAnbima)
-    const dtRef = await page.$eval("input[name='Dt_Ref_Ver']", (el) => (el as HTMLInputElement).value)
+    const { data } = await axios.get(Urls.IndicesAnbima)
+    const inputValue = data.match(/name="Dt_Ref_Ver" value="([0-9]{1,9})"/)
+    if (!inputValue || !inputValue.length) return []
+
+    const dtRef = inputValue[1]
     for (let m = moment(startDate, 'YYYYMMDD'); m.diff(to, 'days') <= 0; m.add(1, 'days')) {
         const currDt = m.format('DD/MM/YYYY') || ''
         if (currDt) dates.push(currDt)
     }
     const downloads = await PromisePool.for(dates)
-        .withConcurrency(5)
+        .withConcurrency(10)
         .process(async function (dt) {
             const query = encodeQueryData({
                 Tipo: '',
