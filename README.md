@@ -94,7 +94,7 @@ const brFinance = require('br-finance')
 
 # 📣 Feedback & Contact
 
-If you have any suggestions or want to let us know what you think about the project, send us a message at <me@brunolobo.xyz>
+If you have any suggestions or want to let us know what you think about the project, send us a message at [![Twitter URL][twitter-shield-msg]][twitter-url]
 
 [contributors-shield]: https://img.shields.io/github/contributors/lobobruno/brFinance.svg?style=for-the-badge
 [contributors-url]: https://github.com/lobobruno/repo/graphs/contributors
@@ -109,4 +109,5 @@ If you have any suggestions or want to let us know what you think about the proj
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/lobobruno
 [twitter-shield]: https://img.shields.io/twitter/url/https/twitter.com/brunowlf.svg?style=social&label=Follow%20%40brunowlf
+[twitter-shield-msg]: https://img.shields.io/twitter/url/https/twitter.com/brunowlf.svg?style=social&label=%20%40brunowlf
 [twitter-url]: https://twitter.com/brunowlf
