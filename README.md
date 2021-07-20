@@ -16,10 +16,9 @@
 -   [🚀 Getting Started Tutorial](#-getting-started-tutorial)
 -   [✨ Features](#-features)
 -   [📌 Requirements](#-requirements)
--   [🌈 CLI Types](#-cli-types)
--   [📚 Usage & Examples](#-usage)
+-   [📚 Usage & Examples](#-usage--examples)
 -   [🏭 Related Repositories](#-related-repositories)
--   [📣 Feedback & Contact](#-feedback)
+-   [📣 Feedback & Contact](#-feedback--contact)
 <!-- tocstop -->
 
 # 🗒 Description
@@ -65,10 +64,10 @@ Currently, Node 8+ is supported. We support the [LTS versions](https://nodejs.or
 ```js
 const brFinance = require('br-finance')
 const ptax = await brFinance.ptax(20210501, 20210510)
-p.forEach((e) => console.log(JSON.stringify(e)))
+console.table(ptax)
 ```
 
-<img src="https://brunolobo.xyz/ptax-example.png?v2" alt="Logo">\
+<img src="images/ptax-example.png?v2" alt="Ptax Example">\
 &nbsp;
 
 -   **ANBIMA Index**:
@@ -87,7 +86,7 @@ const brFinance = require('br-finance')
         ),
 ```
 
-<img src="https://brunolobo.xyz/anbima-example.png" alt="Logo">
+<img src="images/anbima-example.png" alt="Anbima Example">
 
 # 🏭 Related Repositories
 
