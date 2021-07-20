@@ -62,9 +62,13 @@ Currently, Node 8+ is supported. We support the [LTS versions](https://nodejs.or
 -   **PTAX**:
 
 ```js
-const brFinance = require('br-finance')
-const ptax = await brFinance.ptax(20210501, 20210510)
-console.table(ptax)
+const brFinance = require('brfinance')
+
+async function main() {
+    const ptax = await brFinance.ptax(20210501, 20210510)
+    console.table(ptax)
+}
+main()
 ```
 
 <img src="images/ptax-example.png?v2" alt="Ptax Example">\
@@ -73,10 +77,12 @@ console.table(ptax)
 -   **ANBIMA Index**:
 
 ```js
-const brFinance = require('br-finance')
- const indices = await indicesAnbima(20210701, 20210705)
+const brFinance = require('brfinance')
+
+async function main() {
+    const indices = await brFinance.indicesAnbima(20210701, 20210705)
     console.table(
-        indices.slice(-2).map((e) =>
+        indices.slice(-3).map((e) =>
             (({ Indice, VariacaoDiaria, VariacaonoMes, VariacaonoAno }) => ({
                 Indice,
                 VariacaoDiaria,
@@ -84,6 +90,9 @@ const brFinance = require('br-finance')
                 VariacaonoAno,
             }))(e),
         ),
+    )
+}
+main()
 ```
 
 <img src="images/anbima-example.png" alt="Anbima Example">
