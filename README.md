@@ -29,11 +29,11 @@ brFinance is Node.JS web scraping package to simplify access to financial data. 
 
 1. Install the package
     ```sh
-    yarn add
+    yarn add brfinance
     ```
     or
     ```sh
-    npm install
+    npm install brfinance
     ```
 
 # ✨ Features
