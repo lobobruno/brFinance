@@ -50,8 +50,8 @@ brFinance is Node.JS web scraping package to simplify access to financial data. 
 -->
 
 -   **Banco central PTAX** - Average trade price for currencies in BRL
-
 -   **ANBIMA IMA Index** - Brazilian bonds index
+-   **COTA Investment Fund** - Brazilian Investment Funds performance history
 
 # 📌 Requirements
 
