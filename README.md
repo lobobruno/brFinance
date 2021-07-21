@@ -1,4 +1,4 @@
- <img src="https://brunolobo.xyz/brfinance-logo-small.png?v2" alt="Logo" width="600" height="123">
+ <img src="images/brfinance-logo-small.png?v3" alt="Logo BrFinance" >
 
 # BrFinance: Node.JS
 
