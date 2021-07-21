@@ -227,7 +227,11 @@ export async function derivativeStats(date: number, merchandise: string): Promis
 
     function getJsonTable(vars: string[], data: string) {
         const tables = vars.map((m: string) => htmlToTable.parse(getHtmlTable(data, m).join('')))
-
+        if (tables[3].results.length === 0)
+            return getJsonTable(
+                vars.map((e) => e.replace('Opt', '')),
+                data,
+            )
         return tables[3].results[0].map((e, i) => {
             let line = Object.assign({}, e)
             line = Object.assign(line, tables[2].results[0][i])
@@ -236,7 +240,7 @@ export async function derivativeStats(date: number, merchandise: string): Promis
         })
     }
 
-    function getHtmlTable(data: any, m: string) {
+    function getHtmlTable(data: string, m: string) {
         return data
             .replace(/\t/g, '')
             .replace(/\r/g, '')
