@@ -182,7 +182,12 @@ export async function cotaFundo(cnpj: string): Promise<CotaFundo[]> {
     }
     return cotas
 }
-
+/**
+ * Get derivative stats
+ * @param {number} date - Date, format: YYYYMMDD
+ * @param {string} merchandise - DOL, WDO, ICF
+ * @return {object} {futures: [], buyOptions: [], sellOptions: []}
+ */
 export async function derivativeStats(date: number, merchandise: string): Promise<ResumoEstatistico> {
     const from = moment(date + '', 'YYYYMMDD')
     const userInput = { Data: from.format('DD/MM/YYYY'), Mercadoria: merchandise }
