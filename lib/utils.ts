@@ -1,13 +1,9 @@
-import { IndicesAnbima } from './interfaces'
+import { IndicesAnbima, LooseObject } from './interfaces'
 import fs from 'fs'
 import path from 'path'
 
-export interface LooseObject {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any
-}
 export function encodeQueryData(data: LooseObject): string {
-    const ret = []
+    const ret: string[] = []
     for (const d in data) {
         if (typeof data[d] === 'object') {
             for (const arrD in data[d]) {

@@ -1,3 +1,7 @@
+export interface LooseObject {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any
+}
 export interface Ptax {
     data: number
     tipo: string
@@ -33,10 +37,14 @@ export interface CVMCodigos {
     codigo: string
     situacao: string
 }
-
 export interface CotaFundo {
     cota: number
     data: number
     patrimonio: number
     cotistas: number
+}
+export interface ResumoEstatistico {
+    futures: LooseObject[]
+    buyOptions: LooseObject[]
+    sellOptions: LooseObject[]
 }

@@ -1,15 +1,16 @@
+import htmlToTable from 'html-table-to-json'
 import {
     encodeQueryData,
     isHtml,
     jsonToIndiceAnbima,
-    LooseObject,
     recursivelyDelete,
+    toFloatObj,
     toJSON,
     validarCNPJ,
 } from './utils'
 import { existsSync, mkdirSync } from 'fs'
-import { CodMoedaPtax, Urls } from './enums'
-import { CotaFundo, CVMCodigos, IndicesAnbima, Ptax } from './interfaces'
+import { B3Mercadoria, CodMoedaPtax, Urls } from './enums'
+import { CotaFundo, CVMCodigos, IndicesAnbima, LooseObject, Ptax, ResumoEstatistico } from './interfaces'
 import axios from 'axios'
 import moment from 'moment'
 import path from 'path'
@@ -180,4 +181,63 @@ export async function cotaFundo(cnpj: string): Promise<CotaFundo[]> {
         console.warn('CNPJ inválido: ', cnpj)
     }
     return cotas
+}
+
+export async function derivativeStats(date: number, merchandise: string): Promise<ResumoEstatistico> {
+    const from = moment(date + '', 'YYYYMMDD')
+    const userInput = { Data: from.format('DD/MM/YYYY'), Mercadoria: merchandise }
+    const isValidMerchant = Object.keys(B3Mercadoria).indexOf(merchandise.toUpperCase()) >= 0
+    const isDateValid = from.isValid() || date > 19900101
+    const isValid = isDateValid && isValidMerchant
+
+    if (!isDateValid) {
+        console.warn('Invalid date:', date)
+    } else if (!isValidMerchant) {
+        console.warn('Valid are:', B3Mercadoria)
+        console.warn('Invalid Merchant:', merchandise, '\nValid above!')
+    }
+    if (isValid) {
+        const urlEncoded = `${Urls.B3ResumoEstatistico}?${encodeQueryData(userInput)}`
+        const futVars = ['MercFut0', 'MercFut1', 'MercFut2', 'MercFut3']
+        const buyOptionsVars = ['MercOptComp0', 'MercOptComp1', 'MercOptComp2', 'MercOptComp3']
+        const sellOptionsVars = ['MercOptVend0', 'MercOptVend1', 'MercOptVend2', 'MercOptVend3']
+
+        try {
+            const { data } = await axios.request({ method: 'GET', url: urlEncoded, responseType: 'arraybuffer' })
+            const latinString = data.toString('latin1')
+            return {
+                futures: getJsonTable(futVars, latinString),
+                buyOptions: getJsonTable(buyOptionsVars, latinString),
+                sellOptions: getJsonTable(sellOptionsVars, latinString),
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    return {
+        futures: [],
+        buyOptions: [],
+        sellOptions: [],
+    }
+
+    function getJsonTable(vars: string[], data: string) {
+        const tables = vars.map((m: string) => htmlToTable.parse(getHtmlTable(data, m).join('')))
+
+        return tables[3].results[0].map((e, i) => {
+            let line = Object.assign({}, e)
+            line = Object.assign(line, tables[2].results[0][i])
+            line = Object.assign(line, tables[1].results[0][i])
+            return toFloatObj(line)
+        })
+    }
+
+    function getHtmlTable(data: any, m: string) {
+        return data
+            .replace(/\t/g, '')
+            .replace(/\r/g, '')
+            .split('\n')
+            .filter((e: string) => e.indexOf(`${m} =`) >= 0)
+            .filter((e: string) => e.indexOf('+') > 0)
+            .map((e: string) => e.replace(`${m} = ${m} + '`, '').replace("';", ''))
+    }
 }

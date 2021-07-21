@@ -52,6 +52,7 @@ brFinance is Node.JS web scraping package to simplify access to financial data. 
 -   **Banco central PTAX** - Average trade price for currencies in BRL
 -   **ANBIMA IMA Index** - Brazilian bonds index
 -   **COTA Investment Fund** - Brazilian Investment Funds performance history
+-   **Derivatives** - Stats for Derivatives (Futures & Options) [see list](extras/derivatives.txt)
 
 # 📌 Requirements
 
@@ -110,7 +111,23 @@ async function main() {
 main()
 ```
 
-<img src="images/cota-example.png" alt="Cota Example">
+<img src="images/cota-example.png" alt="Cota Example">\
+&nbsp;
+
+-   **Derivatives**:
+    [List with all available symbols](extras/derivatives.txt)
+
+```js
+const brFinance = require('brfinance')
+
+async function main() {
+    const dollar = await derivativeStats(20210720, 'DOL')
+    console.table(dollar.futures)
+}
+main()
+```
+
+<img src="images/derivativos-example.png" alt="Derivative Example">
 
 # 🏭 Related Repositories
 
