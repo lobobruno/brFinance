@@ -95,7 +95,22 @@ async function main() {
 main()
 ```
 
-<img src="images/anbima-example.png" alt="Anbima Example">
+<img src="images/anbima-example.png" alt="Anbima Example">\
+&nbsp;
+
+-   **COTA Investment Fund**:
+
+```js
+const brFinance = require('brfinance')
+
+async function main() {
+    const cota = await cotaFundo('09143435000160')
+    console.table(cota.slice(-5))
+}
+main()
+```
+
+<img src="images/cota-example.png" alt="Cota Example">
 
 # 🏭 Related Repositories
 
