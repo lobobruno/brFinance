@@ -33,3 +33,10 @@ export interface CVMCodigos {
     codigo: string
     situacao: string
 }
+
+export interface CotaFundo {
+    cota: number
+    data: number
+    patrimonio: number
+    cotistas: number
+}

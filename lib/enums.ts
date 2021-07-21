@@ -5,6 +5,7 @@ export enum Urls {
     CVMCodigos = 'https://cvmweb.cvm.gov.br/SWB/Sistemas/SCW/CPublica/CiaAb/ResultBuscaParticCiaAb.aspx?CNPJNome=&TipoConsult=C',
     B3getToken = 'https://arquivos.b3.com.br/api/download/requestname',
     B3download = 'https://arquivos.b3.com.br/api/download/',
+    CotaFundos = 'https://assets-comparacaodefundos.s3-sa-east-1.amazonaws.com/cvm',
 }
 
 export enum CodMoedaPtax {

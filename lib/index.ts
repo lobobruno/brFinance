@@ -1,7 +1,15 @@
-import { encodeQueryData, isHtml, jsonToIndiceAnbima, recursivelyDelete, toJSON } from './utils'
+import {
+    encodeQueryData,
+    isHtml,
+    jsonToIndiceAnbima,
+    LooseObject,
+    recursivelyDelete,
+    toJSON,
+    validarCNPJ,
+} from './utils'
 import { existsSync, mkdirSync } from 'fs'
 import { CodMoedaPtax, Urls } from './enums'
-import { CVMCodigos, IndicesAnbima, Ptax } from './interfaces'
+import { CotaFundo, CVMCodigos, IndicesAnbima, Ptax } from './interfaces'
 import axios from 'axios'
 import moment from 'moment'
 import path from 'path'
@@ -151,4 +159,25 @@ export async function ptax(startDate: number, endDate: number, codMoeda = CodMoe
             } as Ptax
         })
     return lines
+}
+/**
+ * Busca cota de fundos de investimento
+ * @param {string} cnpj - CNPJ do fundo
+ * @return {array} Array com os objetos da consulta
+ */
+export async function cotaFundo(cnpj: string): Promise<CotaFundo[]> {
+    let cotas: CotaFundo[] = []
+    if (validarCNPJ(cnpj)) {
+        const { data } = await axios.get(`${Urls.CotaFundos}/${cnpj}`)
+        if (data && data.length)
+            cotas = data.map((e: LooseObject) => ({
+                cota: Number(e.c),
+                data: Number(e.d),
+                patrimonio: Number(e.p),
+                cotistas: Number(e.q),
+            }))
+    } else {
+        console.warn('CNPJ inválido: ', cnpj)
+    }
+    return cotas
 }
