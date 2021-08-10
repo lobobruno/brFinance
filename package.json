@@ -3,7 +3,7 @@
     "description": "Scraping package to simplify access to financial data of brazilian companies and institutions.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "author": "Bruno Lobo",
     "license": "MIT",
     "keywords": [
@@ -42,6 +42,8 @@
         "moment": "^2.29.1",
         "puppeteer": "^10.1.0",
         "tabletojson": "^2.0.7",
-        "x-ray": "^2.3.4"
+        "unzipper": "^0.10.11",
+        "x-ray": "^2.3.4",
+        "xlsx": "^0.17.0"
     }
 }

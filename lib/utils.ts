@@ -1,6 +1,11 @@
+// file deepcode ignore ZipSlip: <please specify a reason of ignoring this>
+// file deepcode ignore ZipSlip: <please specify a reason of ignoring this>
 import { IndicesAnbima, LooseObject } from './interfaces'
-import fs from 'fs'
+import fs, { createReadStream } from 'fs'
 import path from 'path'
+import https from 'https'
+import http from 'http'
+import { Parse } from 'unzipper'
 
 export function encodeQueryData(data: LooseObject): string {
     const ret: string[] = []
@@ -150,4 +155,113 @@ export function validarCNPJ(cnpj: string): boolean {
     if (resultado != Number(digitos.charAt(1))) return false
 
     return true
+}
+export interface ErrnoException extends Error {
+    errno?: number
+    code?: string
+    path?: string
+    syscall?: string
+    stack?: string
+}
+
+/**
+ * Remove non utf8 chars
+ * @param {string} string - the string to be clened
+ * @returns {string} - string without un-utf8 chars
+ */
+export function cleanString(input: string): string {
+    return input
+        .split('')
+        .filter((e) => e.charCodeAt(0) <= 127)
+        .join('')
+}
+
+/**
+ * Unzip file
+ * @param {string} file - The Zip File path
+ * @param {string} targetFolder - The path to output file
+ * @returns {Promise<void>} - Returns asynchronously when successfully uncompressed the file
+ */
+export async function unzip(file: string, targetFolder: string): Promise<string[]> {
+    const stream = createReadStream(file).pipe(Parse())
+    if (!fs.existsSync(targetFolder)) {
+        fs.mkdirSync(targetFolder)
+    }
+    const outputs: string[] = []
+
+    return new Promise((resolve, reject) => {
+        stream.on('entry', (entry) => {
+            const filePath = path.join(targetFolder, cleanString(entry.path))
+            if (filePath.indexOf(path.join(targetFolder, path.sep)) === 0) {
+                outputs.push(filePath)
+                if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
+
+                const writeStream = fs.createWriteStream(filePath, { flags: 'wx' })
+                return entry.pipe(writeStream)
+            }
+            return null
+        })
+        stream.on('finish', () => resolve(outputs))
+        stream.on('error', (error) => {
+            console.log(error)
+            reject(error)
+        })
+    })
+}
+
+/**
+ * Download a resource from `url` to `dest`.
+ * @param {string} url - Valid URL to attempt download of resource
+ * @param {string} dest - Valid path to save the file.
+ * @returns {Promise<void>} - Returns asynchronously when successfully completed download
+ */
+export async function downloadFile(url: string, dest: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        if (!url) reject('No Url')
+        if (!dest) reject('No destination to file')
+        if (fs.existsSync(dest)) fs.unlinkSync(dest)
+        // Check file does not exist yet before hitting network
+        fs.access(dest, fs.constants.F_OK, (err) => {
+            if (err === null) reject('File already exists')
+            const protocol = url.indexOf('https') >= 0 ? https : http
+            const request = protocol.get(url, (response) => {
+                if (response.statusCode === 200) {
+                    const file = fs.createWriteStream(dest, { flags: 'wx' })
+                    file.on('finish', () => resolve())
+                    file.on('error', (err: ErrnoException) => {
+                        file.close()
+                        if (err.code === 'EEXIST') reject('File already exists')
+                        else fs.unlink(dest, () => reject(err.message)) // Delete temp file
+                    })
+                    response.pipe(file)
+                } else if (response.statusCode === 302 || response.statusCode === 301) {
+                    //Recursively follow redirects, only a 200 will resolve.
+                    if (response.headers.location === undefined) {
+                        reject('Could not redirect!')
+                    } else {
+                        downloadFile(response.headers.location, dest)
+                            .then(() => resolve())
+                            .catch((err) => reject(err.message))
+                    }
+                } else {
+                    reject(`Server responded with ${response.statusCode}: ${response.statusMessage}`)
+                }
+            })
+
+            request.on('error', (err) => {
+                reject(err.message)
+            })
+        })
+    })
+}
+
+export function onlyUniqueObjects<T>(key: keyof T, array: T[]): T[] {
+    const keys = array.map((value) => value[key])
+    return array.filter(function (value, index) {
+        return keys.indexOf(value[key]) === index
+    })
+}
+
+export function onlyUnique<T>(value: T, index: number, self: T[]): boolean {
+    return self.indexOf(value) === index
 }

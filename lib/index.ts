@@ -1,5 +1,6 @@
 import htmlToTable from 'html-table-to-json'
 import {
+    cleanString,
     encodeQueryData,
     isHtml,
     jsonToIndiceAnbima,
@@ -10,17 +11,27 @@ import {
 } from './utils'
 import { existsSync, mkdirSync } from 'fs'
 import { B3Mercadoria, CodMoedaPtax, Urls } from './enums'
-import { CotaFundo, CVMCodigos, IndicesAnbima, LooseObject, Ptax, ResumoEstatistico } from './interfaces'
+import {
+    ICotaFundo,
+    ICVMCodigos,
+    IndicesAnbima,
+    LooseObject,
+    IPtax,
+    IResumoEstatistico,
+    IClassificacaoSetorial,
+} from './interfaces'
 import axios from 'axios'
 import moment from 'moment'
 import path from 'path'
 import PromisePool from '@supercharge/promise-pool/dist'
 import Xray from 'x-ray'
 import { Tabletojson } from 'tabletojson'
+import XLSX from 'XLSX'
+import { downloadFile, unzip } from './utils'
 
 const tmpDir = path.resolve(process.cwd(), 'downloads')
 
-export async function obtemCodCVM(): Promise<CVMCodigos[]> {
+export async function obtemCodCVM(): Promise<ICVMCodigos[]> {
     const { data } = await axios.request({
         method: 'GET',
         url: Urls.CVMCodigos,
@@ -117,7 +128,11 @@ export async function indicesAnbima(startDate: number, endDate: number): Promise
  * @param {numeric} codMoeda - Código da moeda (Default: 61 Dolar Americano)
  * @return {array} Array com os objetos da consulta
  */
-export async function ptax(startDate: number, endDate: number, codMoeda = CodMoedaPtax.DOLAR_DOS_EUA): Promise<Ptax[]> {
+export async function ptax(
+    startDate: number,
+    endDate: number,
+    codMoeda = CodMoedaPtax.DOLAR_DOS_EUA,
+): Promise<IPtax[]> {
     const from = moment(startDate, 'YYYYMMDD')
     const to = moment(endDate, 'YYYYMMDD')
 
@@ -157,7 +172,7 @@ export async function ptax(startDate: number, endDate: number, codMoeda = CodMoe
                 moeda: coin,
                 compra: buy ? Number(buy.replace(/\,/g, '.')) : 0,
                 venda: sell ? Number(sell.replace(/\,/g, '.')) : 0,
-            } as Ptax
+            } as IPtax
         })
     return lines
 }
@@ -166,8 +181,8 @@ export async function ptax(startDate: number, endDate: number, codMoeda = CodMoe
  * @param {string} cnpj - CNPJ do fundo
  * @return {array} Array com os objetos da consulta
  */
-export async function cotaFundo(cnpj: string): Promise<CotaFundo[]> {
-    let cotas: CotaFundo[] = []
+export async function cotaFundo(cnpj: string): Promise<ICotaFundo[]> {
+    let cotas: ICotaFundo[] = []
     if (validarCNPJ(cnpj)) {
         const { data } = await axios.get(`${Urls.CotaFundos}/${cnpj}`)
         if (data && data.length)
@@ -188,7 +203,7 @@ export async function cotaFundo(cnpj: string): Promise<CotaFundo[]> {
  * @param {string} merchandise - DOL, WDO, ICF
  * @return {object} {futures: [], buyOptions: [], sellOptions: []}
  */
-export async function derivativeStats(date: number, merchandise: string): Promise<ResumoEstatistico> {
+export async function derivativeStats(date: number, merchandise: string): Promise<IResumoEstatistico> {
     const from = moment(date + '', 'YYYYMMDD')
     const userInput = { Data: from.format('DD/MM/YYYY'), Mercadoria: merchandise }
     const isValidMerchant = Object.keys(B3Mercadoria).indexOf(merchandise.toUpperCase()) >= 0
@@ -249,4 +264,76 @@ export async function derivativeStats(date: number, merchandise: string): Promis
             .filter((e: string) => e.indexOf('+') > 0)
             .map((e: string) => e.replace(`${m} = ${m} + '`, '').replace("';", ''))
     }
+}
+
+/**
+ * Get industry classification
+  @param {string} downloadDir - Tmp download dir
+ * @return {array} {setor, subsetor, segmento, codigo, listaSeg}
+ */
+export async function getIndustryClassification(downloadDir?: string): Promise<IClassificacaoSetorial[]> {
+    const parseSectorXlsx = (filePath: string) => {
+        const workbook = XLSX.readFile(filePath)
+        const sheet_name_list = workbook.SheetNames
+        let setor = ''
+        let subsetor = ''
+        let segmento = ''
+
+        const companies: IClassificacaoSetorial[] = []
+        sheet_name_list.forEach(function (y) {
+            const worksheet = workbook.Sheets[y]
+            for (const z in worksheet) {
+                if (z[0] === '!') continue
+                let tt = 0
+                for (let i = 0; i < z.length; i++) {
+                    if (!Number.isNaN(Number(z[i]))) {
+                        tt = i
+                        break
+                    }
+                }
+                const col = z.substring(0, tt)
+                const row = parseInt(z.substring(tt))
+                if (row >= 9) {
+                    const value = worksheet[z].v
+                    setor =
+                        col === 'A' && value && cleanString(value) !== cleanString('SETOR ECONÔMICO')
+                            ? value.trim()
+                            : setor
+                    subsetor = col === 'B' && value && value.trim() !== 'SUBSETOR' ? value : subsetor
+                    segmento =
+                        col === 'C' && value && value !== 'SEGMENTO' && worksheet['D' + row] === undefined
+                            ? value.trim()
+                            : segmento
+                    //store header names
+                    if (col === 'C' && value && worksheet['D' + row] && worksheet['D' + row].v !== 'LISTAGEM') {
+                        companies.push({
+                            setor,
+                            subsetor,
+                            segmento,
+                            empresa: value.trim(),
+                            codigo: worksheet['D' + row].v,
+                            listSeg: worksheet['E' + row] ? worksheet['E' + row].v.trim() : '',
+                        })
+                    }
+                }
+            }
+        })
+        return companies
+    }
+    const { data: cmvPage } = await axios.request({
+        method: 'GET',
+        url: Urls.ClassificacaoSetorial,
+        responseType: 'text',
+    })
+    if (!cmvPage) return []
+    const tmpDownload = downloadDir ? downloadDir : tmpDir
+    const fileUrlRegex = new RegExp(/href=\"(.+)?\">Download/g)
+    const match = fileUrlRegex.exec(cmvPage)
+    if (!match || match.length < 2) return []
+    const zipUrl = match[1]
+    const zipOutput = path.resolve(tmpDownload, 'setor.zip')
+    await downloadFile(zipUrl, path.resolve(tmpDownload, 'setor.zip'))
+    const [unzippedFile] = await unzip(zipOutput, tmpDownload)
+    const companies = parseSectorXlsx(unzippedFile)
+    return companies
 }

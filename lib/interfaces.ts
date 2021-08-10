@@ -2,7 +2,7 @@ export interface LooseObject {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any
 }
-export interface Ptax {
+export interface IPtax {
     data: number
     tipo: string
     moeda: string
@@ -30,21 +30,29 @@ export interface IndicesAnbima {
     Yield: number | null
     RedemptionYield: number | null
 }
-export interface CVMCodigos {
+export interface ICVMCodigos {
     cnpj: string
     nome: string
     tipo: string
     codigo: string
     situacao: string
 }
-export interface CotaFundo {
+export interface ICotaFundo {
     cota: number
     data: number
     patrimonio: number
     cotistas: number
 }
-export interface ResumoEstatistico {
+export interface IResumoEstatistico {
     futures: LooseObject[]
     buyOptions: LooseObject[]
     sellOptions: LooseObject[]
+}
+export interface IClassificacaoSetorial {
+    setor: string
+    subsetor: string
+    segmento: string
+    empresa: string
+    codigo: string
+    listSeg: string
 }

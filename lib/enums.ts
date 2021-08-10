@@ -7,6 +7,7 @@ export enum Urls {
     B3download = 'https://arquivos.b3.com.br/api/download/',
     CotaFundos = 'https://assets-comparacaodefundos.s3-sa-east-1.amazonaws.com/cvm',
     B3ResumoEstatistico = 'http://www2.bmf.com.br/pages/portal/bmfbovespa/lumis/lum-sistema-pregao-ptBR.asp',
+    ClassificacaoSetorial = 'http://bvmf.bmfbovespa.com.br/cias-listadas/empresas-listadas/BuscaEmpresaListada.aspx?opcao=1&indiceAba=1&Idioma=pt-br',
 }
 
 export enum CodMoedaPtax {
