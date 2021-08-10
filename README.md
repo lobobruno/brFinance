@@ -137,7 +137,7 @@ main()
 const brFinance = require('brfinance')
 
 async function main() {
-    const dollar = await getIndustryClassification()
+    const industries = await getIndustryClassification()
     console.table(industries.slice(20, 30))
 }
 main()
