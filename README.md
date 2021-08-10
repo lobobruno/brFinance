@@ -12,7 +12,7 @@
 
 <!-- toc -->
 
--   [🗒 Description](#-description)
+-   [💡 Description](#-description)
 -   [🚀 Getting Started Tutorial](#-getting-started-tutorial)
 -   [✨ Features](#-features)
 -   [📌 Requirements](#-requirements)
@@ -21,7 +21,7 @@
 -   [📣 Feedback & Contact](#-feedback--contact)
 <!-- tocstop -->
 
-# 🗒 Description
+# 💡 Description
 
 brFinance is Node.JS web scraping package to simplify access to financial data. It provides data from various sources such as CVM (brazilian equivalent of SEC), B3 (Brazilian stock exchange), Banco Central (brazilian equivalent of FED), ANBIMA, etc.
 
@@ -144,24 +144,26 @@ main()
 ```
 
 <img src="images/industryclassification-example.png" alt="Derivative Example">
+<!--
 # 🏭 Related Repositories
 
 -   [@eudesrodrigo/brFinance](https://github.com/eudesrodrigo/brFinance) - brFinance in Python.
+    -->
 
 # 📣 Feedback & Contact
 
 If you have any suggestions or want to let us know what you think about the project, send us a message at [![Twitter URL][twitter-shield-msg]][twitter-url]
 
 [contributors-shield]: https://img.shields.io/github/contributors/lobobruno/brFinance.svg?style=for-the-badge
-[contributors-url]: https://github.com/lobobruno/repo/graphs/contributors
+[contributors-url]: https://github.com/lobobruno/brFinance/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/lobobruno/brFinance.svg?style=for-the-badge
-[forks-url]: https://github.com/lobobruno/repo/network/members
+[forks-url]: https://github.com/lobobruno/brFinance/network/members
 [stars-shield]: https://img.shields.io/github/stars/lobobruno/brFinance.svg?style=for-the-badge
-[stars-url]: https://github.com/lobobruno/repo/stargazers
+[stars-url]: https://github.com/lobobruno/brFinance/stargazers
 [issues-shield]: https://img.shields.io/github/issues/lobobruno/brFinance.svg?style=for-the-badge
-[issues-url]: https://github.com/lobobruno/repo/issues
+[issues-url]: https://github.com/lobobruno/brFinance/issues
 [license-shield]: https://img.shields.io/github/license/lobobruno/brFinance.svg?style=for-the-badge
-[license-url]: https://github.com/lobobruno/repo/blob/master/LICENSE.txt
+[license-url]: https://github.com/lobobruno/brFinance/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/lobobruno
 [twitter-shield]: https://img.shields.io/twitter/url/https/twitter.com/brunowlf.svg?style=social&label=Follow%20%40brunowlf
