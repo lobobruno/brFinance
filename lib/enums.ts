@@ -10,6 +10,24 @@ export enum Urls {
     ClassificacaoSetorial = 'http://bvmf.bmfbovespa.com.br/cias-listadas/empresas-listadas/BuscaEmpresaListada.aspx?opcao=1&indiceAba=1&Idioma=pt-br',
 }
 
+export enum B3Index {
+    IBOV = 'IBOV',
+    IFNC = 'IFNC',
+    BDRX = 'BDRX',
+    ICON = 'ICON',
+    IEE = 'IEEX',
+    IFIX = 'IFIX',
+    IMAT = 'IMAT',
+    IDIV = 'IDIV',
+    INDX = 'INDX',
+    IMOB = 'IMOB',
+    MLCX = 'MLCX',
+    SMALL = 'SMLL',
+    SMLL = 'SMLL',
+    UTIL = 'UTIL',
+    IVBX = 'IVBX',
+}
+
 export enum CodMoedaPtax {
     AFEGANE_AFEGANIST = 1,
     ARIARY_MADAGASCAR = 2331,

@@ -53,3 +53,5 @@ exportNode*
 .dcignore
 
 lib/test*
+
+.yarnrc

@@ -1,6 +1,6 @@
 // file deepcode ignore ZipSlip: <please specify a reason of ignoring this>
 // file deepcode ignore ZipSlip: <please specify a reason of ignoring this>
-import { IndicesAnbima, LooseObject } from './interfaces'
+import { IIndicesAnbima, LooseObject } from './interfaces'
 import fs, { createReadStream } from 'fs'
 import path from 'path'
 import https from 'https'
@@ -75,7 +75,7 @@ export function toFloatObj(obj: LooseObject): LooseObject {
     return res
 }
 
-export function jsonToIndiceAnbima(obj: LooseObject): IndicesAnbima {
+export function jsonToIndiceAnbima(obj: LooseObject): IIndicesAnbima {
     return {
         Indice: obj.Indice,
         DatadeReferencia: obj.DatadeReferencia || null,

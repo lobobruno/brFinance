@@ -49,17 +49,34 @@ brFinance is Node.JS web scraping package to simplify access to financial data. 
 * * Demonstração de Valor Adicionado
 -->
 
+-   **Index Composition** - Composition of B3 listed indexes [see list](extras/b3-indices.txt
 -   **Banco central PTAX** - Average trade price for currencies in BRL
 -   **ANBIMA IMA Index** - Brazilian bonds index
 -   **COTA Investment Fund** - Brazilian Investment Funds performance history
--   **Derivatives** - Stats for Derivatives (Futures & Options) [see list]
+-   **Derivatives** - Stats for Derivatives (Futures & Options) [see list](extras/derivatives.txt)
 -   **Industry Classification** - Companies Sector, subsector & segment
+    )
 
 # 📌 Requirements
 
-Currently, Node 8+ is supported. We support the [LTS versions](https://nodejs.org/en/about/releases) of Node.
+Currently, Node 14+ is supported. We support the [LTS versions](https://nodejs.org/en/about/releases) of Node.
 
 # 📚 Usage & Examples
+
+-   **Index Composition**:
+
+```js
+const brFinance = require('brfinance')
+
+async function main() {
+    const data = await brFinance.getIndexComposition('IFNC')
+    console.table(data.carteira.slice(-5))
+}
+main()
+```
+
+<img src="images/index-example.png?v2" alt="Index Composition Example">\
+&nbsp;
 
 -   **PTAX**:
 

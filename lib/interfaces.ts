@@ -10,7 +10,7 @@ export interface IPtax {
     venda: number
 }
 
-export interface IndicesAnbima {
+export interface IIndicesAnbima {
     Indice: string | null
     DatadeReferencia: number | null
     NumeroIndice: number | null
@@ -55,4 +55,20 @@ export interface IClassificacaoSetorial {
     empresa: string
     codigo: string
     listSeg: string
+}
+
+export interface ICarteira {
+    ticker: string
+    company: string
+    type: string
+    theorQty: number
+    sharePct: number
+}
+
+export interface IIBOVComposicao {
+    updateAt: string
+    redutor: number
+    qtdTeorica: number
+    carteira: ICarteira[]
+    isValid: boolean
 }

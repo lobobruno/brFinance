@@ -1,0 +1,13 @@
+IFNC: Financeiro
+BDRX: BDRs Não Patrocinados
+ICON: Consumo
+IEEX: Energia Elégrica 
+IFIX: Fundos Imobiliários
+IMAT: Materiais Básicos
+IDIV: Dividendos
+INDX: Industrial
+IMOB: Imobiliário
+MLCX: Mid-large Cap
+SMLL: Small Cap
+UTIL: Utilidada Pública
+IVBX: Valor
