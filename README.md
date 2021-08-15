@@ -49,7 +49,7 @@ brFinance is Node.JS web scraping package to simplify access to financial data. 
 * * Demonstração de Valor Adicionado
 -->
 
--   **Index Composition** - Composition of B3 listed indexes [see list](extras/b3-indices.txt)
+-   **Index Composition** - Composition of B3 listed indexes [see list](extras/B3-indices.txt)
 -   **Banco central PTAX** - Average trade price for currencies in BRL
 -   **ANBIMA IMA Index** - Brazilian bonds index
 -   **COTA Investment Fund** - Brazilian Investment Funds performance history
