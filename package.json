@@ -3,7 +3,7 @@
     "description": "Scraping package to simplify access to financial data of brazilian companies and institutions.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "author": "Bruno Lobo <me@brunolobo.xyz>",
     "license": "Apache 2.0",
     "keywords": [
@@ -13,7 +13,7 @@
     "scripts": {
         "lint": "eslint --fix . --ext .ts,.tsx",
         "dev": "./node_modules/.bin/nodemon",
-        "build": "npx tsc",
+        "build": "tsc",
         "prepare": "npm run build",
         "prepublishOnly": "npm run lint",
         "preversion": "npm run lint",

@@ -343,6 +343,7 @@ export async function getIndustryClassification(downloadDir?: string): Promise<I
 export const getIndexComposition = async (index: B3Index): Promise<IIBOVComposicao> => {
     try {
         const valid = [
+            'IBOV',
             'IFNC',
             'BDRX',
             'ICON',
