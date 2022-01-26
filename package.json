@@ -40,7 +40,7 @@
         "axios": "^0.21.1",
         "html-table-to-json": "^1.0.0",
         "moment": "^2.29.1",
-        "puppeteer": "^10.1.0",
+        "puppeteer": "^13.1.2",
         "tabletojson": "^2.0.7",
         "unzipper": "^0.10.11",
         "x-ray": "^2.3.4",
