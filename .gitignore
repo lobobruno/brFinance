@@ -7,6 +7,7 @@ lib-cov
 *.pid
 *.gz
 *.swp
+*.bat
 
 pids
 logs
@@ -45,7 +46,7 @@ yarn-error.log
 
 downloads/*
 
-# customs 
+# customs
 exportNode*
 
 # deepcode
