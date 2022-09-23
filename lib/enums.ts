@@ -5,7 +5,7 @@ export enum Urls {
     CVMCodigos = 'https://cvmweb.cvm.gov.br/SWB/Sistemas/SCW/CPublica/CiaAb/ResultBuscaParticCiaAb.aspx?CNPJNome=&TipoConsult=C',
     B3getToken = 'https://arquivos.b3.com.br/api/download/requestname',
     B3download = 'https://arquivos.b3.com.br/api/download/',
-    CotaFundos = 'https://assets-comparacaodefundos.s3-sa-east-1.amazonaws.com/cvm',
+    CotaFundos = 'https://api.maisretorno.com/v3/funds/quotes',
     B3ResumoEstatistico = 'http://www2.bmf.com.br/pages/portal/bmfbovespa/lumis/lum-sistema-pregao-ptBR.asp',
     ClassificacaoSetorial = 'http://bvmf.bmfbovespa.com.br/cias-listadas/empresas-listadas/BuscaEmpresaListada.aspx?opcao=1&indiceAba=1&Idioma=pt-br',
 }

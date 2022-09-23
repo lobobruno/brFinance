@@ -1,36 +1,37 @@
+import PromisePool from '@supercharge/promise-pool/dist'
+import axios from 'axios'
+import { existsSync, mkdirSync } from 'fs'
 import htmlToTable from 'html-table-to-json'
+import https from 'https'
+import moment from 'moment'
+import path from 'path'
+import { Tabletojson } from 'tabletojson'
+import Xray from 'x-ray'
+import XLSX from 'XLSX'
+import { B3Index, B3Mercadoria, CodMoedaPtax, Urls } from './enums'
+import {
+    ICarteira,
+    IClassificacaoSetorial,
+    ICotaFundo,
+    ICVMCodigos,
+    IIBOVComposicao,
+    IIndicesAnbima,
+    IPtax,
+    IResumoEstatistico,
+    LooseObject,
+} from './interfaces'
 import {
     cleanString,
+    downloadFile,
     encodeQueryData,
     isHtml,
     jsonToIndiceAnbima,
     recursivelyDelete,
     toFloatObj,
     toJSON,
+    unzip,
     validarCNPJ,
 } from './utils'
-import { existsSync, mkdirSync } from 'fs'
-import { B3Index, B3Mercadoria, CodMoedaPtax, Urls } from './enums'
-import {
-    ICotaFundo,
-    ICVMCodigos,
-    IIndicesAnbima,
-    LooseObject,
-    IPtax,
-    IResumoEstatistico,
-    IClassificacaoSetorial,
-    IIBOVComposicao,
-    ICarteira,
-} from './interfaces'
-import axios from 'axios'
-import moment from 'moment'
-import path from 'path'
-import PromisePool from '@supercharge/promise-pool/dist'
-import Xray from 'x-ray'
-import { Tabletojson } from 'tabletojson'
-import XLSX from 'XLSX'
-import { downloadFile, unzip } from './utils'
-import https from 'https'
 
 const tmpDir = path.resolve(process.cwd(), 'downloads')
 
@@ -188,8 +189,8 @@ export async function cotaFundo(cnpj: string): Promise<ICotaFundo[]> {
     let cotas: ICotaFundo[] = []
     if (validarCNPJ(cnpj)) {
         const { data } = await axios.get(`${Urls.CotaFundos}/${cnpj}`)
-        if (data && data.length)
-            cotas = data.map((e: LooseObject) => ({
+        if (data && data.quotes && data.quotes.length)
+            cotas = data.quotes.map((e: LooseObject) => ({
                 cota: Number(e.c),
                 data: Number(e.d),
                 patrimonio: Number(e.p),
