@@ -38,7 +38,7 @@
     },
     "dependencies": {
         "@supercharge/promise-pool": "^1.7.0",
-        "axios": "^0.23.0",
+        "axios": "^0.27.2",
         "html-table-to-json": "^1.0.0",
         "moment": "^2.29.1",
         "puppeteer": "^13.3.0",
