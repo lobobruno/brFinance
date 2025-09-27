@@ -41,7 +41,7 @@
         "axios": "^1.6.0",
         "html-table-to-json": "^1.0.0",
         "moment": "^2.29.1",
-        "puppeteer": "^13.3.0",
+        "puppeteer": "^24.10.2",
         "tabletojson": "^2.0.7",
         "unzipper": "^0.12.1",
         "x-ray": "^2.3.4",
